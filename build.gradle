@@ -40,6 +40,14 @@ dependencies {
 	runtimeOnly 'org.apache.activemq:artemis-jakarta-server:2.28.0'
 }
 
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java // Publish the Java component of your project
+		}
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
