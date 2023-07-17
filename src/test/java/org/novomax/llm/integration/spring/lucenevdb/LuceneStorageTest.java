@@ -22,12 +22,13 @@ class LuceneStorageTest {
 
     @Test
     void test() {
-        double[] arr1 = genDoubleArray(1024);
+        int dim = 1528;
+        double[] arr1 = genDoubleArray(dim);
         String text1 = "Hello World!";
         String text2 = "Hallo Welt!";
         String id1 = "123435";
         testee.upcert("entity", id1, text1, arr1);
-        testee.upcert("entity", "234556", text2, genDoubleArray(1024));
+        testee.upcert("entity", "234556", text2, genDoubleArray(dim));
         arr1[312] *= 0.97;
         SearchResult result = testee.search(arr1, 1).get(0);
         assertEquals(id1, result.entityId());
