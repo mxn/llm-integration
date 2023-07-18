@@ -6,6 +6,7 @@ import org.novomax.llm.integration.VectorStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static org.novomax.llm.integration.spring.Constants.LLM_OPENAI_QUALIFIER;
 
 @Component
 public class ObjectProcessor {
@@ -68,6 +71,7 @@ public class ObjectProcessor {
     }
 
     @Autowired
+    @Qualifier(LLM_OPENAI_QUALIFIER)
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
         ObjectProcessor.jmsTemplate = jmsTemplate;
     }

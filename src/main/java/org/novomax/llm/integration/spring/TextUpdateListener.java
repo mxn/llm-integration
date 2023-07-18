@@ -14,7 +14,7 @@ public class TextUpdateListener {
     private final Logger logger = LoggerFactory.getLogger(TextUpdateListener.class);
 
     @Autowired
-    public void setJmsTemplate(ObjectProcessor objectProcessor) {
+    public void setObjectProcessor(ObjectProcessor objectProcessor) {
         TextUpdateListener.objectProcessor = objectProcessor;
     }
 

@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.novomax.llm.integration.spring.openai.Constants.LLM_OPENAI_QUALIFIER;
+import static org.novomax.llm.integration.spring.Constants.LLM_OPENAI_QUALIFIER;
 
 @Configuration
 public class OpenAiConfig {
