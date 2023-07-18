@@ -2,7 +2,7 @@ package org.novomax.llm.integration.spring;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.novomax.llm.integration.AiService;
+import org.novomax.llm.integration.LlmIntegrationService;
 import org.novomax.llm.integration.SearchResult;
 import org.springframework.http.MediaType;
 import org.springframework.util.FileCopyUtils;
@@ -18,11 +18,11 @@ import java.util.List;
 @RestController
 public class SearchController {
 
-    private final AiService aiService;
+    private final LlmIntegrationService llmIntegrationService;
     private final UiEntityUrlConfiguration uiEntityUrlConfiguration;
 
-    SearchController(AiService aiService, UiEntityUrlConfiguration uiEntityUrlConfiguration) {
-        this.aiService = aiService;
+    SearchController(LlmIntegrationService llmIntegrationService, UiEntityUrlConfiguration uiEntityUrlConfiguration) {
+        this.llmIntegrationService = llmIntegrationService;
         this.uiEntityUrlConfiguration = uiEntityUrlConfiguration;
     }
 
@@ -34,7 +34,7 @@ public class SearchController {
     @PostMapping("/llm-integration/ui/search-one")
     public void processSearch(@RequestParam("search-text") String searchText, HttpServletResponse response,
                               HttpServletRequest request) throws IOException {
-        List<SearchResult> searchResultList = aiService.findByFreeText(searchText, 1);
+        List<SearchResult> searchResultList = llmIntegrationService.findByFreeText(searchText, 1);
 
         SearchResult searchResult = searchResultList.get(0);
         String urlTemplate = uiEntityUrlConfiguration.getSearchOneMapping().get(searchResult.entityClass());
