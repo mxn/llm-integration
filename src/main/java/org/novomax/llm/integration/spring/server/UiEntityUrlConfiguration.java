@@ -1,4 +1,4 @@
-package org.novomax.llm.integration.spring;
+package org.novomax.llm.integration.spring.server;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

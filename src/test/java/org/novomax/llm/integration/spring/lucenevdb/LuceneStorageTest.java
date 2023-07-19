@@ -2,7 +2,8 @@ package org.novomax.llm.integration.spring.lucenevdb;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.novomax.llm.integration.SearchResult;
+import org.novomax.llm.integration.api.SearchResult;
+import org.novomax.llm.integration.spring.server.lucenevdb.LuceneStorage;
 
 import java.io.IOException;
 import java.nio.file.Files;

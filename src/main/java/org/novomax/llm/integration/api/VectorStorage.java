@@ -1,4 +1,4 @@
-package org.novomax.llm.integration;
+package org.novomax.llm.integration.api;
 
 import java.util.List;
 

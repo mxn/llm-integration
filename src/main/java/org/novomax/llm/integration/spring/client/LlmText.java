@@ -1,4 +1,4 @@
-package org.novomax.llm.integration.spring;
+package org.novomax.llm.integration.spring.client;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

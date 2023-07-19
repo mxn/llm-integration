@@ -1,4 +1,4 @@
-package org.novomax.llm.integration.spring.openai;
+package org.novomax.llm.integration.spring.server.openai;
 
 // Welcome8.java
 

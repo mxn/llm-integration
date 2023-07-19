@@ -1,8 +1,9 @@
-package org.novomax.llm.integration.spring;
+package org.novomax.llm.integration.spring.client;
 
 import jakarta.persistence.Id;
-import org.novomax.llm.integration.LlmService;
-import org.novomax.llm.integration.VectorStorage;
+import org.novomax.llm.integration.api.LlmService;
+import org.novomax.llm.integration.api.VectorStorage;
+import org.novomax.llm.integration.spring.LlmConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

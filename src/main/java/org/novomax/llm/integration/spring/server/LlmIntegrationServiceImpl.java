@@ -1,9 +1,9 @@
-package org.novomax.llm.integration.spring;
+package org.novomax.llm.integration.spring.server;
 
-import org.novomax.llm.integration.LlmIntegrationService;
-import org.novomax.llm.integration.LlmService;
-import org.novomax.llm.integration.SearchResult;
-import org.novomax.llm.integration.VectorStorage;
+import org.novomax.llm.integration.api.LlmIntegrationService;
+import org.novomax.llm.integration.api.LlmService;
+import org.novomax.llm.integration.api.SearchResult;
+import org.novomax.llm.integration.api.VectorStorage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

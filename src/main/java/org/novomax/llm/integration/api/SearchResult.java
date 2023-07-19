@@ -1,4 +1,4 @@
-package org.novomax.llm.integration;
+package org.novomax.llm.integration.api;
 
 public interface SearchResult {
     String entityClass();

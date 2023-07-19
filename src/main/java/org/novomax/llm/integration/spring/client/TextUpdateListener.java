@@ -1,4 +1,4 @@
-package org.novomax.llm.integration.spring;
+package org.novomax.llm.integration.spring.client;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;

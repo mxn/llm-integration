@@ -1,4 +1,4 @@
-package org.novomax.llm.integration.spring.lucenevdb;
+package org.novomax.llm.integration.spring.server.lucenevdb;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -9,8 +9,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.MMapDirectory;
-import org.novomax.llm.integration.SearchResult;
-import org.novomax.llm.integration.VectorStorage;
+import org.novomax.llm.integration.api.SearchResult;
+import org.novomax.llm.integration.api.VectorStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +33,6 @@ public class LuceneStorage implements VectorStorage {
     public static final String ENTITY_ID_FIELD_NAME = "entityId";
     private static final String EMBEDDING_FIELD_NAME = "embedding";
     private static final String MD5_TEXT_HASH_FIELD_NAME = "md5TextHash";
-    private static Logger LOGGER = LoggerFactory.getLogger(LuceneStorage.class);
     private final Path luceneIndexDirectory;
     private final AtomicReference<IndexWriter> indexWriter = new AtomicReference<>();
 
