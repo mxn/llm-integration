@@ -1,14 +1,10 @@
 package org.novomax.llm.integration.spring.client;
 
 import jakarta.persistence.Id;
-import org.novomax.llm.integration.api.LlmService;
-import org.novomax.llm.integration.api.VectorStorage;
+import org.novomax.llm.integration.spring.Constants;
 import org.novomax.llm.integration.spring.LlmConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,22 +21,11 @@ import static org.novomax.llm.integration.spring.Constants.LLM_OPENAI_QUALIFIER;
 @Component
 public class ObjectProcessor {
     private final LlmConfig llmConfig;
-    static final String ENTITY_CLASS_KEY = "entityClass";
-    static final String ENTITY_ID_KEY = "id";
-    static final String TEXT_KEY = "text";
-
-    static final String ACTION_KEY = "action";
 
     private static JmsTemplate jmsTemplate;
-    private final Logger logger = LoggerFactory.getLogger(ObjectProcessor.class);
-    private final VectorStorage vectorStorage;
 
-    private final LlmService llmService;
-
-    public ObjectProcessor(LlmConfig llmConfig, VectorStorage vectorStorage, LlmService llmService) {
+    public ObjectProcessor(LlmConfig llmConfig) {
         this.llmConfig = llmConfig;
-        this.vectorStorage = vectorStorage;
-        this.llmService = llmService;
     }
 
     private static String getText(Object candidate) {
@@ -79,12 +64,12 @@ public class ObjectProcessor {
 
     Map<String, String> toMap(final Object candidate, Action action) {
         Map<String, String> res = new HashMap<>();
-        res.put(ENTITY_CLASS_KEY, candidate.getClass().getName());
+        res.put(Constants.ENTITY_CLASS_KEY, candidate.getClass().getName());
         Object idValue = getIdValue(candidate);
-        res.put(ENTITY_ID_KEY, idValue.toString());
+        res.put(Constants.ENTITY_ID_KEY, idValue.toString());
         String text = getText(candidate);
-        res.put(TEXT_KEY, text);
-        res.put(ACTION_KEY, action.name());
+        res.put(Constants.TEXT_KEY, text);
+        res.put(Constants.ACTION_KEY, action.name());
         return res;
     }
 
@@ -93,30 +78,6 @@ public class ObjectProcessor {
     }
 
 
-    @JmsListener(destination = "#{llmConfig.destinationName}")
-    void onMessage(Map<String, String> message) {
-        logger.debug("got {}: {} {} {}", message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY),
-                message.get(TEXT_KEY), message.get(ACTION_KEY));
-        switch (Action.valueOf(message.get(ACTION_KEY))) {
-            case UPSERT -> {
-                if (message.get(TEXT_KEY) == null || "".equals(message.get(TEXT_KEY).trim())) {
-                    logger.debug("Delete {}:{}, text is empty", message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-                    vectorStorage.delete(message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-                } else if (vectorStorage.shouldUpdateEmbedding(message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY), message.get(TEXT_KEY))) {
-                    logger.debug("Update  {}:{} vector db entry", message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-                    vectorStorage.upcert(message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY), message.get(TEXT_KEY),
-                            llmService.getEmbeddingVector(message.get(TEXT_KEY)));
-                } else {
-                    logger.debug("No action in vector db  {}:{}", message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-                }
-            }
-            case DELETE -> {
-                logger.debug("Delete {}:{}: action DELETE", message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-                vectorStorage.delete(message.get(ENTITY_CLASS_KEY), message.get(ENTITY_ID_KEY));
-            }
-
-        }
-    }
 
     public void remove(Object object) {
         jmsTemplate.convertAndSend(llmConfig.getDestinationName(), toMap(object, Action.DELETE));
