@@ -1,0 +1,29 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'org.springframework.boot' version '3.0.7'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+
+dependencies {
+	implementation 'jakarta.jms:jakarta.jms-api:3.1.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.7'
+	implementation 'org.springframework:spring-jms:6.0.9'
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId = 'llm-integration-common'
+			from components.java // Publish the Java component of your project
+		}
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task prepareKotlinBuildScriptModel {
+}

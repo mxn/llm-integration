@@ -1,1 +1,3 @@
 rootProject.name = 'llm-integration-all-in-one-spring-boot-starter'
+include ':common', ':client', ':server'
+
