@@ -1,0 +1,27 @@
+@startuml
+actor App
+participant "JPA" as JPA
+participant TextUpdateListener
+participant Queue
+participant "Message Processor" as Listener
+participant "Vector DB Layer" as VectorDB
+participant "LLM (OpenAI) API" as LLM
+
+App -> JPA: Update entry
+activate JPA
+JPA -> TextUpdateListener: Updated entry (ID, text)
+activate TextUpdateListener
+TextUpdateListener -> Queue: Post message
+deactivate TextUpdateListener
+JPA --> App: Get updated entry
+deactivate JPA
+activate Queue
+Queue -> Listener: Read message
+deactivate Queue
+activate Listener
+Listener -> VectorDB: Check for update
+Listener -> LLM: Initiate API Request if needed
+LLM --> Listener: Get embedding vector
+Listener --> VectorDB: Store embedding vector
+deactivate Listener
+@enduml

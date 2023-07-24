@@ -1,0 +1,15 @@
+@startuml
+actor User
+participant "Service Layer" as Service
+participant "Vector DB" as VectorDB
+participant "LLM (OpenAI) API" as LLM
+
+User -> Service: Initiate search request
+activate Service
+Service -> LLM: Get embedding vector
+LLM --> Service: Embedding vector
+Service -> VectorDB: Search nearest entry
+VectorDB --> Service: Nearest entry (Type/ID)
+Service --> User: Redirect request via "UI Mapping" to corresponding URL
+deactivate Service
+@enduml
