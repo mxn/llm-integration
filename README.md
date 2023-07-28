@@ -1,3 +1,6 @@
+## Overview
+This is a spring starter, that enables semantic (or "human language") search, backed by OpenAI Platform,
+for spring application, by couple declaration / configuration customization lines
 ## How to build
 - As a Vector DB Apache Lucene (https://github.com/apache/lucene) is used, which has support for similarity search. 
 You need to patch it  as the maximum supported vector dimension (1024) at least in latest stable version is not 
@@ -22,8 +25,10 @@ diff --git a/lucene/core/src/java/org/apache/lucene/index/FloatVectorValues.java
    /** Sole constructor */
    protected FloatVectorValues() {}
 ```
-## How to run
-- You need to annotate an entry with annotation and you text-getter with LlmText
+## How to enable
+- add dependency 'org.novomax:llm-integration-all-in-one-spring-boot-starter:0.0.1-SNAPSHOT'
+- You need to annotate an entry with @EntityListeners annotation, which refers TextUpdateListener.class 
+and you text-getter with @LlmText 
 ```java
 import org.novomax.llm.integration.spring.client.TextUpdateListener;
 
@@ -44,7 +49,7 @@ public class YouApp{/*...*/}
 ```
 - property `org.novomax.llm.integration.spring.openai.api.key` should have your API key 
 for openai
-- Optional to have a search form without coding, you should configure mapping of 
+- optional: to have a search form without coding, you should configure mapping of 
 URL Path for an entity with placeholder for ID (corresponding to ID of the JPA Entity)
 ```yaml
 org:
